@@ -1,5 +1,8 @@
-const Total = ({ content }) => {
-    const { exercises1, exercises2, exercises3 } = content
+const Total = ({ course }) => {
+    const { parts } = course
+    const exercises1 = parts[0].exercises
+    const exercises2 = parts[1].exercises
+    const exercises3 = parts[2].exercises
 
     return (
         <p>Number of exercises {exercises1+exercises2+exercises3}</p>

@@ -22,7 +22,7 @@ const StatisticTable = ({ stats }) => {
                 </tr>
                 <tr>
                     <td>average</td>
-                    <td>{average}%</td>
+                    <td>{average} %</td>
                 </tr>
             </tbody>
         </table>

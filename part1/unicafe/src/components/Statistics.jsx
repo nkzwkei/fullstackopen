@@ -1,9 +1,7 @@
-import StatisticLine from "./StatisticLine"
+import StatisticTable from "./Statistictable"
 
 const Statistics = ({ stats }) => {
-    const { good, neutral, bad, all, average } = stats
-
-    if  (all === 0)  {
+    if  (stats.all === 0)  {
         return (
             <>
                 <h2>statistics</h2>
@@ -15,11 +13,7 @@ const Statistics = ({ stats }) => {
     return (
     <>
         <h2>statistics</h2>
-        <StatisticLine text='good' value={good} />
-        <StatisticLine text='neutral' value={neutral} />
-        <StatisticLine text='bad' value={bad} />
-        <StatisticLine text='all' value={all} />
-        <StatisticLine text='average' value={average} />
+        <StatisticTable stats={stats} />
     </>
     )
 }

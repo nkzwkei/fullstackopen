@@ -38,7 +38,7 @@ const App = () => {
       }))
   }
 
-  const handles = {handleVote, handleNext}
+  const handles = { handleVote, handleNext }
 
   return (
     <>

@@ -1,19 +1,19 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import personService from './services/persons'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ])
+  const [persons, setPersons] = useState([])
   const [name, setName] = useState('')
   const [number, setNumber] = useState('')
   const [filter, setFilter] = useState('')
+
+  useEffect(() => {
+    personService.getPersons().then(persons => setPersons(persons))
+  }, [])  
 
   const handleAddPerson = (event) => {
     event.preventDefault()
@@ -22,7 +22,7 @@ const App = () => {
     }
     else 
     {
-      setPersons([...persons, { name, number, id: persons.slice(-1)[0].id+1 }])
+      personService.addPerson({name, number}).then(returnedPerson => setPersons([...persons, returnedPerson]))
       setName('')
       setNumber('')
     }

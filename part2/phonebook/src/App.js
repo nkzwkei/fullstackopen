@@ -18,7 +18,10 @@ const App = () => {
   const handleAddPerson = (event) => {
     event.preventDefault()
     if(persons.map(person => person.name).includes(name)) {
-      alert(`${name} is already added in the phonebook`)
+      if(window.confirm(`${name} is already added to phonebook, replace the old number with a new one?`)) {
+        const foundPerson = persons.filter(person => person.name === name)[0]
+        personService.updatePerson({ name, number, id: foundPerson.id }).then(updatedPerson => setPersons(persons.map(person => person.id === updatedPerson.id ? updatedPerson : person)))
+      }
     }
     else 
     {
@@ -51,10 +54,9 @@ const App = () => {
       <h3>Add a new</h3>
       <PersonForm name={name} number={number} formHandles={formHandles}/>
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons}/>
+      <Persons persons={filteredPersons} setPersons={setPersons}/>
     </div>
   )
 }
 
 export default App
-//

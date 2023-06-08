@@ -3,6 +3,7 @@ const Showcase = ({ anecdotes, votes, index, handles }) => {
 
     return (
         <>
+            <h2>Anecdote of the day</h2>
             <p>{anecdotes[index]}</p>
             <p>has {votes[index]} vote{votes[index] > 1 ? 's':''}</p>
             <button onClick={handleVote}>vote</button>

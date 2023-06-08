@@ -43,7 +43,7 @@ const App = () => {
   return (
     <>
       <Showcase anecdotes={anecdotes} votes={votes} index={index} handles={handles}/>
-      <MostVoted anecdotes={anecdotes} votes={votes} index={index} />
+      <MostVoted anecdotes={anecdotes} votes={votes} />
     </>
   )
 }

@@ -1,19 +1,5 @@
-import { useState } from "react"
-
-const Showcase = ({ anecdotes }) => {
-    const [index, setIndex] = useState(0)
-    const [votes, setVotes] = useState(Array(anecdotes.length).fill(0))
-
-    const handleNext = () => {
-        setIndex((index+1)%anecdotes.length)
-    }
-
-    const handleVote = () => {
-        setVotes(votes.map((vote, ind) => {
-            if(index === ind) return vote+1
-            return vote
-        }))
-    }
+const Showcase = ({ anecdotes, votes, index, handles }) => {
+    const { handleVote, handleNext } = handles
 
     return (
         <>

@@ -4,7 +4,7 @@ const SpecificCountry = ({ country }) => {
             <h2>{country.name.common}</h2>
             <p>capital {country.capital[0]}</p>
             <p>area {country.area}</p>
-            <p><b>languages</b></p>
+            <p><b>languages:</b></p>
             <ul>
                 {Object.values(country.languages).map(language => <li key={language}>{language}</li>)}
             </ul>

@@ -10,7 +10,7 @@ const Display = ({ countries }) => {
     if(countries.length > 1)    
         return (
             <>
-                {countries.map(country => <Country country={country} />)}
+                {countries.map(country => <Country key={country.capital[0]} country={country} />)}
             </>
         )
 

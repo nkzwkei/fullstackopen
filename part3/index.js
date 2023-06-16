@@ -58,10 +58,22 @@ app.get('/api/persons/:id', (req, res) => {
 app.post('/api/persons', (req, res) => {
     const { body } = req
 
+    if(!body.name || !body.number) {
+        return res.status(404).send({
+            error: 'the name or number is missing'
+        })
+    }
+
     const person = {
         name: body.name,
         number: body.number,
         id: generateId()
+    }
+
+    if(persons.map(p => p.name.toLowerCase()).includes(person.name.toLowerCase())) {
+        return res.status(404).send({
+            error: 'name must be unique'
+        })
     }
 
     persons = persons.concat(person)

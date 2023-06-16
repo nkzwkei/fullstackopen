@@ -30,6 +30,11 @@ app.get('/', (_, res) => {
     return res.send('<h1>Hi</h1>')
 })
 
+app.get('/info', (_, res) => {
+    const today = new Date(Date.now())
+    res.send(`<p>Phone book has info for ${persons.length} people<br><p>${today.toUTCString()}</p>`)
+})
+
 app.get('/api/persons', (_, res) => {
     return res.json(persons)
 })

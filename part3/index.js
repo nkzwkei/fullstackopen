@@ -3,7 +3,7 @@ const app = express()
 
 app.use(express.json())
 
-const persons = [
+let persons = [
     { 
       "id": 1,
       "name": "Arto Hellas", 
@@ -25,6 +25,11 @@ const persons = [
       "number": "39-23-6423122"
     }
 ]
+
+const generateId = () => {
+    const maxId = persons.length > 0 ? Math.max(...persons.map(p => p.id)) : 0
+    return maxId+1
+}
 
 app.get('/', (_, res) => {
     return res.send('<h1>Hi</h1>')
@@ -48,6 +53,27 @@ app.get('/api/persons/:id', (req, res) => {
     } else {
         res.status(404).end()
     }
+})
+
+app.post('/api/persons', (req, res) => {
+    const { body } = req
+
+    const person = {
+        name: body.name,
+        number: body.number,
+        id: generateId()
+    }
+
+    persons = persons.concat(person)
+
+    res.json(persons)
+})
+
+app.delete('/api/persons/:id', (req, res) => {
+    const id = Number(req.params.id)
+    persons = persons.filter(p => p.id !== id)
+
+    res.status(204).end()
 })
 
 const PORT = 3001

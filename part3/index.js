@@ -1,6 +1,15 @@
 const express = require('express')
 const app = express()
 
+const requestLogger = (req, _, next) => {
+    console.log('Method:', req.method)
+    console.log('Path:  ', req.path)
+    console.log('Body:  ', req.body)
+    console.log('---')
+    next()
+}
+
+app.use(requestLogger)
 app.use(express.json())
 
 let persons = [
@@ -25,6 +34,12 @@ let persons = [
       "number": "39-23-6423122"
     }
 ]
+
+
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+}
 
 const generateId = () => {
     const maxId = persons.length > 0 ? Math.max(...persons.map(p => p.id)) : 0
@@ -87,6 +102,9 @@ app.delete('/api/persons/:id', (req, res) => {
 
     res.status(204).end()
 })
+
+app.use(unknownEndpoint)
+
 
 const PORT = 3001
 

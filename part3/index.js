@@ -1,15 +1,20 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
 
-const requestLogger = (req, _, next) => {
-    console.log('Method:', req.method)
-    console.log('Path:  ', req.path)
-    console.log('Body:  ', req.body)
-    console.log('---')
-    next()
-}
+// const requestLogger = (req, _, next) => {
+//     console.log('Method:', req.method)
+//     console.log('Path:  ', req.path)
+//     console.log('Body:  ', req.body)
+//     console.log('---')
+//     next()
+// }
 
-app.use(requestLogger)
+morgan.token('body', (req, _) => {
+    return JSON.stringify(req.body)
+})
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 app.use(express.json())
 
 let persons = [
@@ -37,7 +42,7 @@ let persons = [
 
 
 
-const unknownEndpoint = (request, response) => {
+const unknownEndpoint = (_, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
 }
 

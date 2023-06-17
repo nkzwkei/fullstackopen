@@ -1,7 +1,9 @@
 const express = require('express')
-const app = express()
+const cors = require('cors')
 const morgan = require('morgan')
 
+
+const app = express()
 // const requestLogger = (req, _, next) => {
 //     console.log('Method:', req.method)
 //     console.log('Path:  ', req.path)
@@ -16,6 +18,7 @@ morgan.token('body', (req, _) => {
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 app.use(express.json())
+app.use(cors())
 
 let persons = [
     { 
@@ -98,7 +101,7 @@ app.post('/api/persons', (req, res) => {
 
     persons = persons.concat(person)
 
-    res.json(persons)
+    res.json(person)
 })
 
 app.delete('/api/persons/:id', (req, res) => {
@@ -110,8 +113,7 @@ app.delete('/api/persons/:id', (req, res) => {
 
 app.use(unknownEndpoint)
 
-
-const PORT = 3001
+const PORT = process.env.PORT || 3001 
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)

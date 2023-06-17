@@ -21,15 +21,18 @@ const App = () => {
 
   const handleAddPerson = (event) => {
     event.preventDefault()
-    if(persons.map(person => person.name).includes(name)) {
-      if(window.confirm(`${name} is already added to phonebook, replace the old number with a new one?`)) {
-        const foundPerson = persons.filter(person => person.name === name)[0]
-        personService.updatePerson({ name, number, id: foundPerson.id }).then(updatedPerson => setPersons(persons.map(person => person.id === updatedPerson.id ? updatedPerson : person)))
-      }
-    }
-    else 
-    {
-      personService.addPerson({name, number}).then(returnedPerson => setPersons([...persons, returnedPerson]))
+    // if(persons.map(person => person.name).includes(name)) {
+    //   if(window.confirm(`${name} is already added to phonebook, replace the old number with a new one?`)) {
+    //     const foundPerson = persons.filter(person => person.name === name)[0]
+    //     personService.updatePerson({ name, number, id: foundPerson.id }).then(updatedPerson => setPersons(persons.map(person => person.id === updatedPerson.id ? updatedPerson : person)))
+    //   }
+    // }
+    // else 
+    // {
+      personService.addPerson({name, number}).then(returnedPerson => {
+        console.log(returnedPerson)
+        setPersons([...persons, returnedPerson])
+      })
       setMessage(`Added ${name}`)
       setCls('suscess')
       setTimeout(() => {
@@ -37,7 +40,7 @@ const App = () => {
       }, 5000)
       setName('')
       setNumber('')
-    }
+    // }
   }
 
   const handleNameChange = (event) => {

@@ -1,1 +1,1 @@
-Backend deploy : https://phonebook-test-dwd0.onrender.com/
+Full app deploy : https://phonebook-test-dwd0.onrender.com/

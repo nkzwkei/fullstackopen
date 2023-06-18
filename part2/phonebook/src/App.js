@@ -30,7 +30,6 @@ const App = () => {
     // else 
     // {
       personService.addPerson({name, number}).then(returnedPerson => {
-        console.log(returnedPerson)
         setPersons([...persons, returnedPerson])
       })
       setMessage(`Added ${name}`)
@@ -57,7 +56,7 @@ const App = () => {
 
   const formHandles = { handleNameChange, handleAddPerson, handleNumberChange }
 
-  const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
+  const filteredPersons = filter ? persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase())) : persons
 
   return (
     <div>

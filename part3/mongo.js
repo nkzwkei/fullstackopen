@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 
-if(process.argv.length < 3 || process.argv.length === 4 || process.argv.length > 5) {
-    console.log('Please provide password or enough arguments')
-    process.exit(1)
-}
+// if(process.argv.length < 3 || process.argv.length === 4 || process.argv.length > 5) {
+//     console.log('Please provide password or enough arguments')
+//     process.exit(1)
+// }
 
-const password = process.argv[2]
+// const password = process.argv[2]
 
-const link = `mongodb+srv://nkzw:${password}@cluster0.wqbfewn.mongodb.net/`
+const link = process.env.DATABASE_URL
 
 mongoose.set('strictQuery',false)
 mongoose.connect(link)
@@ -39,6 +39,8 @@ else if(process.argv.length === 5) {
         mongoose.connection.close()
     })
 }
+
+module.exports = Person
 
 
 

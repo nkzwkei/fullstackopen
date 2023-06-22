@@ -1,6 +1,9 @@
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
+require('dotenv').config()
+
+const Person = require('./mongo')
 
 
 const app = express()
@@ -50,10 +53,10 @@ const unknownEndpoint = (_, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
 }
 
-const generateId = () => {
-    const maxId = persons.length > 0 ? Math.max(...persons.map(p => p.id)) : 0
-    return maxId+1
-}
+// const generateId = () => {
+//     const maxId = persons.length > 0 ? Math.max(...persons.map(p => p.id)) : 0
+//     return maxId+1
+// }
 
 app.get('/', (_, res) => {
     return res.send('<h1>Hi</h1>')
@@ -65,18 +68,15 @@ app.get('/info', (_, res) => {
 })
 
 app.get('/api/persons', (_, res) => {
-    return res.json(persons)
+    Person.find({}).then(persons => {
+        return res.json(persons)
+    })
 })
 
 app.get('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    const person = persons.find(per => per.id === id)
-
-    if(person) {
-        res.json(person)
-    } else {
-        res.status(404).end()
-    }
+    Person.findById(req.params.id).then(person => {
+        return res.json(person)
+    })
 })
 
 app.post('/api/persons', (req, res) => {
@@ -88,21 +88,14 @@ app.post('/api/persons', (req, res) => {
         })
     }
 
-    const person = {
+    const person = new Person({
         name: body.name,
-        number: body.number,
-        id: generateId()
-    }
+        number: body.number
+    })
 
-    if(persons.map(p => p.name.toLowerCase()).includes(person.name.toLowerCase())) {
-        return res.status(404).send({
-            error: 'name must be unique'
-        })
-    }
-
-    persons = persons.concat(person)
-
-    res.json(person)
+    person.save().then(savedPerson => {
+        res.json(savedPerson)
+    })
 })
 
 app.delete('/api/persons/:id', (req, res) => {

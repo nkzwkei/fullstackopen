@@ -17,16 +17,16 @@ const addPerson = person => {
     return request.then(response => response.data)
 }
 
-// const updatePerson = person => {
-//     const request = axios.put(`${baseUrl}/${person.id}`, person)
-//     return request.then(response => response.data)
-// }
+const updatePerson = person => {
+    const request = axios.put(`${baseUrl}/${person.id}`, person)
+    return request.then(response => response.data)
+}
 
 const deletePerson = ({ id }) => {
     const request = axios.delete(`${baseUrl}/${id}`)
     return request.then(response => response.data)
 }
 
-const methods = { addPerson, getPersons, getPersonById, deletePerson }
+const methods = { addPerson, getPersons, getPersonById, deletePerson, updatePerson }
 
 export default methods

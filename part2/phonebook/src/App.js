@@ -31,6 +31,10 @@ const App = () => {
     {
       personService.addPerson({name, number}).then(returnedPerson => {
         setPersons([...persons, returnedPerson])
+      }).catch(error => {
+        console.log(error)
+        setMessage(error.response.data.error)
+        setCls('error')
       })
       setMessage(`Added ${name}`)
       setCls('suscess')

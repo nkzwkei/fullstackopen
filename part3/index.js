@@ -22,9 +22,12 @@ const errorHandler = (err, _, res, next) => {
         return res.status(400).send({
             error: 'malformatted id'
         })
+    } else if (err.name === 'ValidationError') {
+        console.log('valid error')
+        return res.status(400).json({ error : err.message })
     }
 
-    next(error)
+    next(err)
 }
 
 const unknownEndpoint = (_, response) => {
@@ -37,7 +40,8 @@ app.get('/', (_, res) => {
 
 app.get('/info', (_, res) => {
     const today = new Date(Date.now())
-    res.send(`<p>Phone book has info for ${persons.length} people<br><p>${today.toUTCString()}</p>`)
+    const length = Person.find({}).length
+    res.send(`<p>Phone book has info for ${length} people<br><p>${today.toUTCString()}</p>`)
 })
 
 app.get('/api/persons', (_, res) => {
@@ -52,7 +56,7 @@ app.get('/api/persons/:id', (req, res, next) => {
     }).catch(error => next(error))
 })
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
     const { body } = req
 
     if(!body.name || !body.number) {
@@ -68,7 +72,7 @@ app.post('/api/persons', (req, res) => {
 
     person.save().then(savedPerson => {
         res.json(savedPerson)
-    })
+    }).catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (req, res, next) => {

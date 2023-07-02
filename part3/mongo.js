@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const mongoose = require('mongoose')
 
 // if(process.argv.length < 3 || process.argv.length === 4 || process.argv.length > 5) {
@@ -9,55 +10,49 @@ const mongoose = require('mongoose')
 
 const link = process.env.DATABASE_URL
 
-mongoose.set('strictQuery',false)
+mongoose.set('strictQuery', false)
 mongoose.connect(link)
 
 const personSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        minLength: 3,
-        required: true,
-    },
-    number: {
-        type: String,
-        minLength: 9,
-        validate: {
-            validator: (v) => {
-                return /\d{2}-\d{6}|\d{3}-\d{5}/.test(v)
-            },
-            message: props => {
-                console.log(props)
-                return `${props.value} is not a valid phone number !`
-            }
-        }
-    }
+	name: {
+		type: String,
+		minLength: 3,
+		required: true,
+	},
+	number: {
+		type: String,
+		minLength: 9,
+		validate: {
+			validator: (v) => {
+				return /\d{2}-\d{6}|\d{3}-\d{5}/.test(v)
+			},
+			message: (props) => {
+				console.log(props)
+				return `${props.value} is not a valid phone number !`
+			},
+		},
+	},
 })
 
 const Person = mongoose.model('Person', personSchema)
 
-if(process.argv.length === 3) {
-    Person.find({}).then(persons => {
-        console.log('phonebook:')
-        persons.map(person => {
-            console.log(person.name, person.number)
-        })
-        mongoose.connection.close()
-    })
-}
-
-else if(process.argv.length === 5) {
-    const person = new Person({
-        name : process.argv[3],
-        number : process.argv[4]
-    })
-    person.save().then(result => {
-        console.log(`added ${result.name} ${result.number}`)
-        mongoose.connection.close()
-    })
+if (process.argv.length === 3) {
+	Person.find({}).then((persons) => {
+		console.log('phonebook:')
+		persons.map((person) => {
+			console.log(person.name, person.number)
+		})
+		mongoose.connection.close()
+	})
+} else if (process.argv.length === 5) {
+	const person = new Person({
+		name: process.argv[3],
+		number: process.argv[4],
+	})
+	person.save().then((result) => {
+		console.log(`added ${result.name} ${result.number}`)
+		mongoose.connection.close()
+	})
 }
 
 module.exports = Person
-
-
-
-

@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 const dummy = (_) => {
     return 1
 }
@@ -15,6 +17,11 @@ const favoriteBlog = (blogs) => {
             return { title, author, likes }
         }
     }
+}
+
+const mostBlogs = (blogs) => {
+    const names = blogs.map(blog => blog.author)
+    const freq = _.frequencies
 }
 
 module.exports = {

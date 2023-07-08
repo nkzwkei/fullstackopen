@@ -1,5 +1,3 @@
-const _ = require('lodash')
-
 const dummy = (_) => {
     return 1
 }
@@ -21,9 +19,22 @@ const favoriteBlog = (blogs) => {
 
 const mostBlogs = (blogs) => {
     const names = blogs.map(blog => blog.author)
-    const freq = _.frequencies
+    const freq = {}
+    for(const name of names) {
+        if(!freq[name]) freq[name] = 1
+        else freq[name]++
+    }
+    const mx = Math.max(...Object.values(freq))
+    for(const name of names) {
+        if(freq[name] === mx) {
+            return {
+                author: name,
+                blogs: mx
+            }
+        }
+    }
 }
 
 module.exports = {
-    dummy, totalLikes, favoriteBlog
+    dummy, totalLikes, favoriteBlog, mostBlogs
 }

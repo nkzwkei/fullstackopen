@@ -33,7 +33,13 @@ describe('more complicated test', () => {
         })
     })
 
-    
+    test('most blogs', () => {
+        const result = listHelper.mostBlogs(listOfBlogs)
+        expect(result).toEqual({
+            author: "Robert C. Martin",
+            blogs: 3
+        })
+    })
 })
 
 // oops i mean 4.5

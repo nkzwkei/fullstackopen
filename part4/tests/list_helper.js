@@ -35,6 +35,24 @@ const mostBlogs = (blogs) => {
     }
 }
 
+const mostLikes = (blogs) => {
+    const namesAndLikes = blogs.map(blog => ({name : blog.author, likes: blog.likes}))
+    const freq = {}
+    for(const key in namesAndLikes) {
+        if(!freq[namesAndLikes[key].name]) freq[namesAndLikes[key].name] = namesAndLikes[key].likes
+        else freq[namesAndLikes[key].name] += namesAndLikes[key].likes
+    }
+    const mx = Math.max(...Object.values(freq))
+    for(const key in freq) {
+        if(freq[key] === mx) {
+            return {
+                author: key,
+                likes: mx
+            }
+        }
+    }
+}
+
 module.exports = {
-    dummy, totalLikes, favoriteBlog, mostBlogs
+    dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes
 }

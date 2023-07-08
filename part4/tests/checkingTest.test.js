@@ -40,6 +40,14 @@ describe('more complicated test', () => {
             blogs: 3
         })
     })
+
+    test('most likes', () => {
+        const result = listHelper.mostLikes(listOfBlogs)
+        expect(result).toEqual({
+            author: "Edsger W. Dijkstra",
+            likes: 17
+        })
+    })
 })
 
 // oops i mean 4.5
